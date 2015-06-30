@@ -78,7 +78,7 @@ install {
 }
 
 task sourcesJar(type: Jar) {
-    from sourceSets.main.java.srcDirsgit
+    from sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
 
