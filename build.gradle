@@ -1,0 +1,27 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+    }
+}
+
+allprojects {
+    allprojects {
+        ext {
+            libraryVersion = '1.0'
+            mavenGroupId = 'com.txusballesteros'
+            siteUrl = 'https://github.com/txusballesteros/bubbles-for-android'
+            gitUrl = 'https://github.com/txusballesteros/bubbles-for-android.git'
+        }
+    }
+    repositories {
+        jcenter()
+    }
+}
