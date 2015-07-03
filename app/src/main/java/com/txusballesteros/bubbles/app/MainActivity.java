@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import com.txusballesteros.bubbles.BubbleLayout;
 import com.txusballesteros.bubbles.BubblesManager;
@@ -47,20 +46,22 @@ public class MainActivity extends ActionBarActivity {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BubbleLayout bubbleView = (BubbleLayout)LayoutInflater.from(MainActivity.this).inflate(R.layout.bubble_layout, null);
-                bubbleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) { }
-                });
-                bubbleView.setOnBubbleRemoveListener(new BubbleLayout.OnBubbleRemoveListener() {
-                    @Override
-                    public void onBubbleRemoved(BubbleLayout bubble) {
-                        Toast.makeText(MainActivity.this, "Removed", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                bubblesManager.addBubble(bubbleView, 60, 20);
+                addNewBubble();
             }
         });
+    }
+
+    private void addNewBubble() {
+        BubbleLayout bubbleView = (BubbleLayout)LayoutInflater.from(MainActivity.this).inflate(R.layout.bubble_layout, null);
+        bubbleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { }
+        });
+        bubbleView.setOnBubbleRemoveListener(new BubbleLayout.OnBubbleRemoveListener() {
+            @Override
+            public void onBubbleRemoved(BubbleLayout bubble) { }
+        });
+        bubblesManager.addBubble(bubbleView, 60, 20);
     }
 
     private void initializeBubblesManager() {

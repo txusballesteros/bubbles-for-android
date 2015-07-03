@@ -3,13 +3,15 @@ Bubbles for Android
 
 Bubbles for Android is an Android library to provide chat heads capabilities on your apps. With a fast way to integrate with your development.
 
+![Logo](assets/bubbles_demo.gif)
+
 ## Latest Version
 
 [![Download](https://api.bintray.com/packages/txusballesteros/maven/bubbles-for-android/images/download.svg) ](https://bintray.com/txusballesteros/maven/bubbles-for-android/_latestVersion)
 
 ## How to use
 
-### Configuring your project
+### Configuring your project dependencies
 
 Add the library dependency in your build.gradle file.
 
@@ -22,17 +24,15 @@ dependencies {
 
 ### Configuring your AndroidManifest
 
+Add the next lines to you AndroidManifest.xml file.
+
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.txusballesteros.bubbles.app" >
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme" >
+    <application ...>
 
         ...
 
@@ -97,7 +97,7 @@ bubblesManager.addBubble(bubbleView, 60, 20);
 
 ### Configuring your Bubbles Trash
 
-If you want to have a trash for the Bubbles to remove on screen bubbles, you can configure the
+If you want to have a trash to remove on screen bubbles, you can configure the
 layout of that.
 
 Define your trash layout Xml.
