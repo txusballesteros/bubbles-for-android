@@ -20,6 +20,31 @@ dependencies {
 }
 ```
 
+### Configuring your AndroidManifest
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.txusballesteros.bubbles.app" >
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" >
+
+        ...
+
+        <service android:name="com.txusballesteros.bubbles.BubblesService"
+            android:enabled="true"
+            android:exported="false" />
+
+    </application>
+
+</manifest>
+```
+
 ### Adding your first Bubble
 
 Compose your Bubble layout, for example using a Xml layout file. Remember that the first view of your Bubble layout has to be a BubbleLayout view.
