@@ -31,6 +31,7 @@ import android.util.AttributeSet;
 
 class BubbleTrashLayout extends BubbleBaseLayout {
     private boolean magnetismApplied = false;
+    private boolean attachedToWindow = false;
 
     public BubbleTrashLayout(Context context) {
         super(context);
@@ -45,15 +46,29 @@ class BubbleTrashLayout extends BubbleBaseLayout {
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        attachedToWindow = true;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        attachedToWindow = false;
+    }
+
+    @Override
     public void setVisibility(int visibility) {
-        if (visibility != getVisibility()) {
-            super.setVisibility(visibility);
-            if (visibility == VISIBLE) {
-                playAnimation(R.animator.bubble_trash_shown_animator);
-            } else {
-                playAnimation(R.animator.bubble_trash_hide_animator);
+        if (attachedToWindow) {
+            if (visibility != getVisibility()) {
+                if (visibility == VISIBLE) {
+                    playAnimation(R.animator.bubble_trash_shown_animator);
+                } else {
+                    playAnimation(R.animator.bubble_trash_hide_animator);
+                }
             }
         }
+        super.setVisibility(visibility);
     }
 
     void applyMagnetism() {
