@@ -15,7 +15,7 @@ buildscript {
 allprojects {
     allprojects {
         ext {
-            libraryVersion = '1.0'
+            libraryVersion = '1.0.1'
             mavenGroupId = 'com.txusballesteros'
             siteUrl = 'https://github.com/txusballesteros/bubbles-for-android'
             gitUrl = 'https://github.com/txusballesteros/bubbles-for-android.git'
