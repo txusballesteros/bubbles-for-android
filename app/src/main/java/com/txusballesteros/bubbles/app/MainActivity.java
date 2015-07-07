@@ -31,6 +31,7 @@ import android.view.View;
 
 import com.txusballesteros.bubbles.BubbleLayout;
 import com.txusballesteros.bubbles.BubblesManager;
+import com.txusballesteros.bubbles.OnInitializedCallback;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -67,6 +68,12 @@ public class MainActivity extends ActionBarActivity {
     private void initializeBubblesManager() {
         bubblesManager = new BubblesManager.Builder(this)
                                     .setTrashLayout(R.layout.bubble_trash_layout)
+                                    .setInitializationCallback(new OnInitializedCallback() {
+                                        @Override
+                                        public void onInitialized() {
+                                            addNewBubble();
+                                        }
+                                    })
                                     .build();
         bubblesManager.initialize();
     }
