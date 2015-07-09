@@ -7,7 +7,7 @@ Bubbles for Android is an Android library to provide chat heads capabilities on 
 
 ## Latest Version
 
-[![Download](https://api.bintray.com/packages/txusballesteros/maven/bubbles-for-android/images/download.svg) ](https://bintray.com/txusballesteros/maven/bubbles-for-android/_latestVersion)
+[![Download](https://api.bintray.com/packages/txusballesteros/maven/bubbles-for-android/images/download.svg) ](https://bintray.com/txusballesteros/maven/bubbles-for-android/_latestVersion) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Bubbles%20for%20Android-green.svg?style=flat)](https://android-arsenal.com/details/1/2113)
 
 ## How to use
 
