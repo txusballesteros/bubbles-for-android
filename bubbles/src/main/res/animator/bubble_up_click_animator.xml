@@ -23,12 +23,22 @@
  *
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
 -->
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.txusballesteros.bubbles">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="together">
 
+    <objectAnimator
+        android:duration="100"
+        android:interpolator="@android:interpolator/overshoot"
+        android:propertyName="scaleX"
+        android:valueType="floatType"
+        android:valueFrom="0.8f"
+        android:valueTo="1.0f" />
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
-
-    <application android:allowBackup="true" />
-</manifest>
+    <objectAnimator
+        android:duration="100"
+        android:interpolator="@android:interpolator/overshoot"
+        android:propertyName="scaleY"
+        android:valueType="floatType"
+        android:valueFrom="0.8f"
+        android:valueTo="1.0f" />
+</set>

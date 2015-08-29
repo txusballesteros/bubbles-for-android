@@ -30,15 +30,26 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+
 public class BubbleLayout extends BubbleBaseLayout {
     private float initialTouchX;
     private float initialTouchY;
     private int initialX;
     private int initialY;
     private OnBubbleRemoveListener onBubbleRemoveListener;
+    private OnBubbleClickListener onBubbleClickListener;
+
+    private static final int TOUCH_TIME_THRESHOLD = 200;
+    private long lastTouchDown;
+
+
 
     public void setOnBubbleRemoveListener(OnBubbleRemoveListener listener) {
         onBubbleRemoveListener = listener;
+    }
+
+    public void setOnBubbleClickListener(OnBubbleClickListener listener) {
+        onBubbleClickListener = listener;
     }
 
     public BubbleLayout(Context context) {
@@ -66,6 +77,7 @@ public class BubbleLayout extends BubbleBaseLayout {
         setClickable(true);
     }
 
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -74,6 +86,8 @@ public class BubbleLayout extends BubbleBaseLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+
         if (event != null) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -81,6 +95,9 @@ public class BubbleLayout extends BubbleBaseLayout {
                     initialY = getViewParams().y;
                     initialTouchX = event.getRawX();
                     initialTouchY = event.getRawY();
+                    playAnimationClickdown();
+                    lastTouchDown = System.currentTimeMillis();
+
                     break;
                 case MotionEvent.ACTION_MOVE:
                     int x = initialX + (int)(event.getRawX() - initialTouchX);
@@ -95,6 +112,14 @@ public class BubbleLayout extends BubbleBaseLayout {
                 case MotionEvent.ACTION_UP:
                     if (getLayoutCoordinator() != null) {
                         getLayoutCoordinator().notifyBubbleRelease(this);
+                        playAnimationClickup();
+                    }
+
+
+                    if (System.currentTimeMillis() - lastTouchDown < TOUCH_TIME_THRESHOLD) {
+                        if (onBubbleClickListener != null) {
+                            onBubbleClickListener.onBubbleClick(this);
+                        }
                     }
                     break;
             }
@@ -111,7 +136,29 @@ public class BubbleLayout extends BubbleBaseLayout {
         }
     }
 
+    private void playAnimationClickdown() {
+        if (!isInEditMode()) {
+            AnimatorSet animator = (AnimatorSet) AnimatorInflater
+                    .loadAnimator(getContext(), R.animator.bubble_down_click_animator);
+            animator.setTarget(this);
+            animator.start();
+        }
+    }
+
+    private void playAnimationClickup() {
+        if (!isInEditMode()) {
+            AnimatorSet animator = (AnimatorSet) AnimatorInflater
+                    .loadAnimator(getContext(), R.animator.bubble_up_click_animator);
+            animator.setTarget(this);
+            animator.start();
+        }
+    }
+
     public interface OnBubbleRemoveListener {
         void onBubbleRemoved(BubbleLayout bubble);
+    }
+
+    public interface OnBubbleClickListener {
+        void onBubbleClick(BubbleLayout bubble);
     }
 }
