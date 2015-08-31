@@ -27,5 +27,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.txusballesteros.bubbles">
 
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application android:allowBackup="true" />
 </manifest>

@@ -27,6 +27,7 @@ package com.txusballesteros.bubbles;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Context;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 
 class BubbleTrashLayout extends BubbleBaseLayout {
@@ -63,6 +64,8 @@ class BubbleTrashLayout extends BubbleBaseLayout {
             if (visibility != getVisibility()) {
                 if (visibility == VISIBLE) {
                     playAnimation(R.animator.bubble_trash_shown_animator);
+
+
                 } else {
                     playAnimation(R.animator.bubble_trash_hide_animator);
                 }
@@ -75,6 +78,8 @@ class BubbleTrashLayout extends BubbleBaseLayout {
         if (!magnetismApplied) {
             magnetismApplied = true;
             playAnimation(R.animator.bubble_trash_shown_magnetism_animator);
+            Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(70);
         }
     }
 
