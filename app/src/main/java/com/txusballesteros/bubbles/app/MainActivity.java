@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.txusballesteros.bubbles.BubbleLayout;
 import com.txusballesteros.bubbles.BubblesManager;
@@ -54,14 +55,19 @@ public class MainActivity extends ActionBarActivity {
 
     private void addNewBubble() {
         BubbleLayout bubbleView = (BubbleLayout)LayoutInflater.from(MainActivity.this).inflate(R.layout.bubble_layout, null);
-        bubbleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { }
-        });
         bubbleView.setOnBubbleRemoveListener(new BubbleLayout.OnBubbleRemoveListener() {
             @Override
             public void onBubbleRemoved(BubbleLayout bubble) { }
         });
+        bubbleView.setOnBubbleClickListener(new BubbleLayout.OnBubbleClickListener() {
+
+            @Override
+            public void onBubbleClick(BubbleLayout bubble) {
+                Toast.makeText(getApplicationContext(), "Clicked !",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        bubbleView.setShouldStickToWall(true);
         bubblesManager.addBubble(bubbleView, 60, 20);
     }
 
