@@ -67,6 +67,7 @@ public class MainActivity extends ActionBarActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+        bubbleView.setShouldStickToWall(true);
         bubblesManager.addBubble(bubbleView, 60, 20);
     }
 

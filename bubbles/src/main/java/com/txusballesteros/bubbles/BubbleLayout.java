@@ -50,6 +50,7 @@ public class BubbleLayout extends BubbleBaseLayout {
     private MoveAnimator mAnimator;
     private int mWidth;
     private WindowManager mWindowManager;
+    private boolean shouldStickToWall = true;
 
     public void setOnBubbleRemoveListener(OnBubbleRemoveListener listener) {
         onBubbleRemoveListener = listener;
@@ -78,6 +79,10 @@ public class BubbleLayout extends BubbleBaseLayout {
         mAnimator = new MoveAnimator();
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         initializeView();
+    }
+
+    public void setShouldStickToWall(boolean shouldStick) {
+        this.shouldStickToWall = shouldStick;
     }
 
     void notifyBubbleRemoved() {
@@ -186,11 +191,11 @@ public class BubbleLayout extends BubbleBaseLayout {
     }
 
     public void goToWall() {
-
-        int middle = mWidth / 2;
-        float nearestXWall = getViewParams().x >= middle ? mWidth : 0;
-        mAnimator.start(nearestXWall, getViewParams().y);
-
+        if(shouldStickToWall){
+            int middle = mWidth / 2;
+            float nearestXWall = getViewParams().x >= middle ? mWidth : 0;
+            mAnimator.start(nearestXWall, getViewParams().y);
+        }
     }
 
     private void move(float deltaX, float deltaY) {
