@@ -23,32 +23,22 @@
  *
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
 -->
-<com.txusballesteros.bubbles.BubbleLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:clipChildren="false"
-    android:clipToPadding="false">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="together">
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:background="@drawable/profile_decorator"
-        android:src="@drawable/profile"
-        android:scaleType="centerCrop"/>
+    <objectAnimator
+        android:duration="100"
+        android:interpolator="@android:interpolator/overshoot"
+        android:propertyName="scaleX"
+        android:valueType="floatType"
+        android:valueFrom="1.0f"
+        android:valueTo="0.8f" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:background="@drawable/bubble_counter_bkg"
-        android:text="1"/>
-
-</com.txusballesteros.bubbles.BubbleLayout>
+    <objectAnimator
+        android:duration="100"
+        android:interpolator="@android:interpolator/overshoot"
+        android:propertyName="scaleY"
+        android:valueType="floatType"
+        android:valueFrom="1.0f"
+        android:valueTo="0.8f" />
+</set>

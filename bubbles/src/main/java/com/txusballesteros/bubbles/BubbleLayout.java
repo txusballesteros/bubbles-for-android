@@ -27,8 +27,15 @@ package com.txusballesteros.bubbles;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Context;
+import android.graphics.Point;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
+import android.view.WindowManager;
+
 
 public class BubbleLayout extends BubbleBaseLayout {
     private float initialTouchX;
@@ -36,24 +43,46 @@ public class BubbleLayout extends BubbleBaseLayout {
     private int initialX;
     private int initialY;
     private OnBubbleRemoveListener onBubbleRemoveListener;
+    private OnBubbleClickListener onBubbleClickListener;
+
+    private static final int TOUCH_TIME_THRESHOLD = 150;
+    private long lastTouchDown;
+    private MoveAnimator mAnimator;
+    private int mWidth;
+    private WindowManager mWindowManager;
+    private boolean shouldStickToWall = true;
 
     public void setOnBubbleRemoveListener(OnBubbleRemoveListener listener) {
         onBubbleRemoveListener = listener;
     }
 
+    public void setOnBubbleClickListener(OnBubbleClickListener listener) {
+        onBubbleClickListener = listener;
+    }
+
     public BubbleLayout(Context context) {
         super(context);
+        mAnimator = new MoveAnimator();
+        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         initializeView();
     }
 
     public BubbleLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mAnimator = new MoveAnimator();
+        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         initializeView();
     }
 
     public BubbleLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mAnimator = new MoveAnimator();
+        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         initializeView();
+    }
+
+    public void setShouldStickToWall(boolean shouldStick) {
+        this.shouldStickToWall = shouldStick;
     }
 
     void notifyBubbleRemoved() {
@@ -65,6 +94,7 @@ public class BubbleLayout extends BubbleBaseLayout {
     private void initializeView() {
         setClickable(true);
     }
+
 
     @Override
     protected void onAttachedToWindow() {
@@ -81,6 +111,11 @@ public class BubbleLayout extends BubbleBaseLayout {
                     initialY = getViewParams().y;
                     initialTouchX = event.getRawX();
                     initialTouchY = event.getRawY();
+                    playAnimationClickdown();
+                    lastTouchDown = System.currentTimeMillis();
+                    updateSize();
+                    mAnimator.stop();
+
                     break;
                 case MotionEvent.ACTION_MOVE:
                     int x = initialX + (int)(event.getRawX() - initialTouchX);
@@ -93,8 +128,16 @@ public class BubbleLayout extends BubbleBaseLayout {
                     }
                     break;
                 case MotionEvent.ACTION_UP:
+                    goToWall();
                     if (getLayoutCoordinator() != null) {
                         getLayoutCoordinator().notifyBubbleRelease(this);
+                        playAnimationClickup();
+                    }
+                    if (System.currentTimeMillis() - lastTouchDown < TOUCH_TIME_THRESHOLD) {
+                        if (onBubbleClickListener != null) {
+                            onBubbleClickListener.onBubbleClick(this);
+
+                        }
                     }
                     break;
             }
@@ -111,7 +154,87 @@ public class BubbleLayout extends BubbleBaseLayout {
         }
     }
 
+    private void playAnimationClickdown() {
+        if (!isInEditMode()) {
+            AnimatorSet animator = (AnimatorSet) AnimatorInflater
+                    .loadAnimator(getContext(), R.animator.bubble_down_click_animator);
+            animator.setTarget(this);
+            animator.start();
+        }
+    }
+
+    private void playAnimationClickup() {
+        if (!isInEditMode()) {
+            AnimatorSet animator = (AnimatorSet) AnimatorInflater
+                    .loadAnimator(getContext(), R.animator.bubble_up_click_animator);
+            animator.setTarget(this);
+            animator.start();
+        }
+    }
+
+    private void updateSize() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        mWindowManager.getDefaultDisplay().getMetrics(metrics);
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        mWidth = (size.x - this.getWidth());
+
+    }
+
     public interface OnBubbleRemoveListener {
         void onBubbleRemoved(BubbleLayout bubble);
     }
-}
+
+    public interface OnBubbleClickListener {
+        void onBubbleClick(BubbleLayout bubble);
+    }
+
+    public void goToWall() {
+        if(shouldStickToWall){
+            int middle = mWidth / 2;
+            float nearestXWall = getViewParams().x >= middle ? mWidth : 0;
+            mAnimator.start(nearestXWall, getViewParams().y);
+        }
+    }
+
+    private void move(float deltaX, float deltaY) {
+        getViewParams().x += deltaX;
+        getViewParams().y += deltaY;
+       mWindowManager.updateViewLayout(this, getViewParams());
+    }
+
+
+    private class MoveAnimator implements Runnable {
+
+        private Handler handler = new Handler(Looper.getMainLooper());
+        private float destinationX;
+        private float destinationY;
+        private long startingTime;
+
+        private void start(float x, float y) {
+            this.destinationX = x;
+            this.destinationY = y;
+            startingTime = System.currentTimeMillis();
+            handler.post(this);
+        }
+
+        @Override
+        public void run() {
+            if (getRootView() != null && getRootView().getParent() != null) {
+                float progress = Math.min(1, (System.currentTimeMillis() - startingTime) / 400f);
+                float deltaX = (destinationX -  getViewParams().x) * progress;
+                float deltaY = (destinationY -  getViewParams().y) * progress;
+                move(deltaX, deltaY);
+                if (progress < 1) {
+                    handler.post(this);
+                }
+            }
+        }
+
+        private void stop() {
+            handler.removeCallbacks(this);
+        }
+
+    }
+    }
