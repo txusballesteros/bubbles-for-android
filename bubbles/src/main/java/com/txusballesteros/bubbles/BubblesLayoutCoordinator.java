@@ -24,6 +24,8 @@
  */
 package com.txusballesteros.bubbles;
 
+import android.content.Context;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -47,6 +49,7 @@ final class BubblesLayoutCoordinator {
             trashView.setVisibility(View.VISIBLE);
             if (checkIfBubbleIsOverTrash(bubble)) {
                 trashView.applyMagnetism();
+                trashView.vibrate();
                 applyTrashMagnetismToBubble(bubble);
             } else {
                 trashView.releaseMagnetism();

@@ -28,4 +28,13 @@
     package="com.txusballesteros.bubbles">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application>
+
+        <service android:name="com.txusballesteros.bubbles.BubblesService"
+            android:enabled="true"
+            android:exported="false" />
+
+    </application>
 </manifest>
