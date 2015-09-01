@@ -18,31 +18,8 @@ Add the library dependency in your build.gradle file.
 ```groovy
 dependencies {
     ...
-    compile 'com.txusballesteros:bubbles:1.2'
+    compile 'com.txusballesteros:bubbles:1.2.1'
 }
-```
-
-### Configuring your AndroidManifest
-
-Add the next lines to you AndroidManifest.xml file.
-
-```xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.txusballesteros.bubbles.app" >
-
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-    <application ...>
-
-        ...
-
-        <service android:name="com.txusballesteros.bubbles.BubblesService"
-            android:enabled="true"
-            android:exported="false" />
-
-    </application>
-
-</manifest>
 ```
 
 ### Adding your first Bubble
