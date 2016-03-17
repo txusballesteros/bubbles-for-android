@@ -127,8 +127,8 @@ public class BubbleLayout extends BubbleBaseLayout {
                     goToWall();
                     if (getLayoutCoordinator() != null) {
                         getLayoutCoordinator().notifyBubbleRelease(this);
-                        playAnimationClickUp();
                     }
+                    playAnimationClickUp();
                     if (System.currentTimeMillis() - lastTouchDown < TOUCH_TIME_THRESHOLD) {
                         if (onBubbleClickListener != null) {
                             onBubbleClickListener.onBubbleClick(this);
