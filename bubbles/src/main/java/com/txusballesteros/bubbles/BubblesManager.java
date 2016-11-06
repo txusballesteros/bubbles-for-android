@@ -114,4 +114,11 @@ public class BubblesManager {
             return bubblesManager;
         }
     }
+      public mBubblesService getBubblesService() {
+        return bubblesService;
+    }
+
+    public void setBubblesService(mBubblesService bubblesService) {
+        this.bubblesService = bubblesService;
+    }
 }

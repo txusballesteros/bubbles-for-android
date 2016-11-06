@@ -31,7 +31,7 @@ import android.os.Vibrator;
 import android.util.AttributeSet;
 
 class BubbleTrashLayout extends BubbleBaseLayout {
-    public static final int VIBRATION_DURATION_IN_MS = 70;
+    public static int VIBRATION_DURATION_IN_MS = 70;
     private boolean magnetismApplied = false;
     private boolean attachedToWindow = false;
 
@@ -101,5 +101,12 @@ class BubbleTrashLayout extends BubbleBaseLayout {
             animator.setTarget(getChildAt(0));
             animator.start();
         }
+    }
+    public static int getVibrationDurationInMs() {
+        return VIBRATION_DURATION_IN_MS;
+    }
+
+    public static void setVibrationDurationInMs(int vibrationDurationInMs) {
+        VIBRATION_DURATION_IN_MS = vibrationDurationInMs;
     }
 }

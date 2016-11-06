@@ -158,4 +158,11 @@ public class BubblesService extends Service {
             return BubblesService.this;
         }
     }
+     public mBubbleTrashLayout getBubblesTrash() {
+        return bubblesTrash;
+    }
+
+    public void setBubblesTrash(mBubbleTrashLayout bubblesTrash) {
+        this.bubblesTrash = bubblesTrash;
+    }
 }
