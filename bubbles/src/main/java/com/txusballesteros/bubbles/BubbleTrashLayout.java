@@ -102,4 +102,11 @@ class BubbleTrashLayout extends BubbleBaseLayout {
             animator.start();
         }
     }
+    public static int getVibrationDurationInMs() {
+        return VIBRATION_DURATION_IN_MS;
+    }
+
+    public static void setVibrationDurationInMs(int vibrationDurationInMs) {
+        VIBRATION_DURATION_IN_MS = vibrationDurationInMs;
+    }
 }
