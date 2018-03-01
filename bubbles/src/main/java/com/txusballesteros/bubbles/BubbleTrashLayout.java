@@ -34,6 +34,7 @@ class BubbleTrashLayout extends BubbleBaseLayout {
     public static final int VIBRATION_DURATION_IN_MS = 70;
     private boolean magnetismApplied = false;
     private boolean attachedToWindow = false;
+    private boolean isVibrateInThisSession = false;
 
     public BubbleTrashLayout(Context context) {
         super(context);
@@ -83,8 +84,11 @@ class BubbleTrashLayout extends BubbleBaseLayout {
     }
 
     void vibrate() {
-        final Vibrator vibrator = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(VIBRATION_DURATION_IN_MS);
+        if (!isVibrateInThisSession){
+            final Vibrator vibrator = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(VIBRATION_DURATION_IN_MS);
+            isVibrateInThisSession = true;
+        }
     }
 
     void releaseMagnetism() {
@@ -92,6 +96,7 @@ class BubbleTrashLayout extends BubbleBaseLayout {
             magnetismApplied = false;
             playAnimation(R.animator.bubble_trash_hide_magnetism_animator);
         }
+        isVibrateInThisSession = false;
     }
 
     private void playAnimation(int animationResourceId) {
