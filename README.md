@@ -18,7 +18,7 @@ Add the library dependency in your build.gradle file.
 ```groovy
 dependencies {
     ...
-    compile 'com.txusballesteros:bubbles:1.2.1'
+    implementation 'com.txusballesteros:bubbles:1.2.1'
 }
 ```
 
