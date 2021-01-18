@@ -24,8 +24,6 @@
  */
 package com.txusballesteros.bubbles;
 
-import android.content.Context;
-import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
 
